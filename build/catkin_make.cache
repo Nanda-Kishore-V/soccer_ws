@@ -1,0 +1,2 @@
+control:image_processing
+-DCATKIN_DEVEL_PREFIX=/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel -DCMAKE_INSTALL_PREFIX=/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/install -G Unix Makefiles

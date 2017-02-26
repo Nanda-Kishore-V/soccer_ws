@@ -1,0 +1,8 @@
+prefix=/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel
+
+Name: image_processing
+Description: Description of image_processing
+Version: 0.0.0
+Cflags: -I/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel/include
+Libs: -L/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel/lib 
+Requires: message_runtime roscpp rospy std_msgs
