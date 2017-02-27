@@ -35,17 +35,32 @@ if __name__=="__main__":
         rospy.Subscriber('bot_states',bot_state,callback_bot)
         print "Waiting..."
         time.sleep(2)
-        print "Exectuting"
+        print "Executing"
         scale_x = 100
         scale_y = 100
+        choice = raw_input("Do you wish to use omega or theta ?")
+        if choice == 't':
+            stick.set_omega(False)
+        else:
+            stick.set_omega(True)
         while(1):
             stick.event_get()
             vel = stick.get_vel()
-            dest_orientation = stick.get_orientation()
-            w = math.atan2(math.sin((dest_orientation - bot1.state[2] - 90)*math.pi/180),math.cos((dest_orientation - bot1.state[2] - 90)*math.pi/180))
+            if not stick.get_omega:
+                dest_orientation = stick.get_orientation()
+                w = math.atan2(math.sin((dest_orientation - bot1.state[2] - 90)*math.pi/180),math.cos((dest_orientation - bot1.state[2] - 90)*math.pi/180))
+            else:
+                print stick.get_lb()
+                print stick.get_rb()
+                if stick.get_lb():
+                    w = 3.14
+                elif stick.get_rb():
+                    w = -3.14
+                else:
+                    w = 0
             # print w
-            # print vel
-            bot1.move(scale_x*vel[0],scale_y*vel[1],0)
+            print vel
+            bot1.move(scale_x*vel[0],scale_y*vel[1],w)
             # bot1.move(0.1,0.1,0.1)
             # time.sleep(0.05)
             # print bot1.state[2]

@@ -24,6 +24,7 @@ class Joystick_interface:
         pygame.joystick.init()
         self.count = pygame.joystick.get_count()
         self.angle = 0
+        self.omega = True
         if self.count != 0:
             self.joy = pygame.joystick.Joystick(0)
             self.joy.init()
@@ -68,6 +69,19 @@ class Joystick_interface:
 
     def is_thru(self):
         return self.joy.get_button(THRU_BALL)
+
+    def get_omega(self):
+        return self.omega
+
+    def set_omega(self,val):
+        self.omega = val
+        return
+
+    def get_lb(self):
+        return self.joy.get_button(5)
+
+    def get_rb(self):
+        return self.joy.get_button(4)
 
     def event_get(self):
         pygame.event.get()

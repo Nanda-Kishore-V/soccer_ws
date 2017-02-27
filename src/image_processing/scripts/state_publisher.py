@@ -20,11 +20,11 @@ if __name__=="__main__":
             original_image = ball_object.get_image()
             image = ball_object.perspective_transform(original_image,ball_object.pts_in_img,ball_object.pts_reqd)
 
-            if not ball_object.display_image(image):
+            imageGray = ball_object.rgb2gray(image)
+            ret,thresh = ball_object.threshold_image(imageGray,250,255)
+            if not ball_object.display_image(thresh):
                 flag = 1
                 break
-            imageGray = ball_object.rgb2gray(image)
-            ret,thresh = ball_object.threshold_image(imageGray,220,255)
             contours,hierarchy = ball_object.find_contours(thresh)
 
             for i in range(len(contours)):
