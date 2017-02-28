@@ -36,6 +36,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/image_processing/msg" TYPE FILE FILES
     "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
     "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
+    "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
     )
 endif()
 

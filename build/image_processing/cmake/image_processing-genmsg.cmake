@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "image_processing: 2 messages, 0 services")
+message(STATUS "image_processing: 3 messages, 0 services")
 
 set(MSG_I_FLAGS "-Iimage_processing:/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg")
 
@@ -17,14 +17,19 @@ add_custom_target(image_processing_generate_messages ALL)
 
 
 
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" ""
+)
+
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" "std_msgs/Header"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" ""
 )
 
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)
 add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" "geometry_msgs/Pose2D:std_msgs/Header"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" "geometry_msgs/Pose2D"
 )
 
 #
@@ -34,15 +39,21 @@ add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(image_processing
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/image_processing
+)
+_generate_msg_cpp(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/image_processing
 )
 _generate_msg_cpp(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/image_processing
 )
 
@@ -60,6 +71,8 @@ add_custom_target(image_processing_generate_messages_cpp
 add_dependencies(image_processing_generate_messages image_processing_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)
@@ -75,15 +88,21 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS image_processing_generate_messages_
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(image_processing
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/image_processing
+)
+_generate_msg_eus(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/image_processing
 )
 _generate_msg_eus(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/image_processing
 )
 
@@ -101,6 +120,8 @@ add_custom_target(image_processing_generate_messages_eus
 add_dependencies(image_processing_generate_messages image_processing_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)
@@ -116,15 +137,21 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS image_processing_generate_messages_
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(image_processing
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/image_processing
+)
+_generate_msg_lisp(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/image_processing
 )
 _generate_msg_lisp(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/image_processing
 )
 
@@ -142,6 +169,8 @@ add_custom_target(image_processing_generate_messages_lisp
 add_dependencies(image_processing_generate_messages image_processing_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)
@@ -157,15 +186,21 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS image_processing_generate_messages_
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(image_processing
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/image_processing
+)
+_generate_msg_nodejs(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/image_processing
 )
 _generate_msg_nodejs(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/image_processing
 )
 
@@ -183,6 +218,8 @@ add_custom_target(image_processing_generate_messages_nodejs
 add_dependencies(image_processing_generate_messages image_processing_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)
@@ -198,15 +235,21 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS image_processing_generate_messages_
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(image_processing
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/image_processing
+)
+_generate_msg_py(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/image_processing
 )
 _generate_msg_py(image_processing
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose2D.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/image_processing
 )
 
@@ -224,6 +267,8 @@ add_custom_target(image_processing_generate_messages_py
 add_dependencies(image_processing_generate_messages image_processing_generate_messages_py)
 
 # add dependencies to all check dependencies targets
+get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball_predict.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/src/image_processing/msg/bot_state.msg" NAME_WE)

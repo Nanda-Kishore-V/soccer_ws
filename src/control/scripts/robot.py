@@ -8,7 +8,7 @@ import rospy
 WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
-MIN_VEL_GTG = 90
+MIN_VEL_GTG = 85
 class robot:
 
     def __init__(self,init_state,number,ip,port):

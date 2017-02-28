@@ -1,0 +1,2 @@
+float64 predicted_x
+float64 predicted_y

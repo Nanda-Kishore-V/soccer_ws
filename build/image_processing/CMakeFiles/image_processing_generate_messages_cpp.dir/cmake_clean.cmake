@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/image_processing_generate_messages_cpp"
+  "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel/include/image_processing/ball_predict.h"
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel/include/image_processing/ball.h"
   "/home/nanda/Documents/RMI/SoccerBots/codes/soccer_ws/devel/include/image_processing/bot_state.h"
 )

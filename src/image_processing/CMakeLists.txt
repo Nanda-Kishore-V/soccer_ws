@@ -50,6 +50,7 @@ add_message_files(
   FILES
   bot_state.msg
   ball.msg
+  ball_predict.msg
 )
 
 ## Generate services in the 'srv' folder

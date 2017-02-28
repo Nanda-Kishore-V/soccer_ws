@@ -10,10 +10,10 @@ FULL_HEIGHT = 1080
 FINAL_WIDTH  = 1100
 FINAL_HEIGHT = 620
 
-LEFT_TOP = [94,26]
-RIGHT_TOP = [1732,68]
-RIGHT_BOTTOM = [1724,990]
-LEFT_BOTTOM = [104,1028]
+LEFT_TOP = [94,14]
+RIGHT_TOP = [1714,152]
+RIGHT_BOTTOM = [1670,1054]
+LEFT_BOTTOM = [36,1034]
 
 class IP(object):
 
@@ -127,7 +127,7 @@ class Ball(detectRobot):
 
         self.sides = [[(100,0),(100,1022)],[(1000,0),(1000,1022)]]
 
-        self.dir = 0;       self.destination = 0
+        self.dir = 0;       self.destination = (100,310)
 
     def update_fps(self,num_frames=120):
         print "Checking fps..."

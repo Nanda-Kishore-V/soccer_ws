@@ -3,6 +3,7 @@ import ip_module
 import numpy as np
 import rospy
 from image_processing.msg import ball
+from image_processing.msg import ball_predict
 from image_processing.msg import bot_state
 
 if __name__=="__main__":
@@ -11,6 +12,7 @@ if __name__=="__main__":
         flag = 0
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=5)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=5)
+        ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=5)
         rospy.init_node('state_publisher',anonymous=True)
         rate = rospy.Rate(ball_object.fps)
         centroid = (0,0)
@@ -22,9 +24,9 @@ if __name__=="__main__":
 
             imageGray = ball_object.rgb2gray(image)
             ret,thresh = ball_object.threshold_image(imageGray,250,255)
-            if not ball_object.display_image(thresh):
-                flag = 1
-                break
+            # if not ball_object.display_image(thresh):
+            #     flag = 1
+            #     break
             contours,hierarchy = ball_object.find_contours(thresh)
 
             for i in range(len(contours)):
@@ -89,12 +91,18 @@ if __name__=="__main__":
                 rospy.loginfo(ball_msg)
                 ball_state_publisher.publish(ball_msg)
 
-                if ball_object.abs_vel() > 10:
-                    ball_object.get_prediction(image)
-
-            # if not ball_object.display_image(image):
-            #     flag = 1
-            #     break
+                msg = ball_predict()
+                # print ball_object.get_prediction(image)
+                destination = ball_object.get_prediction(image)
+                # print destination
+                if destination != -1 and destination[0] != 100:
+                    msg.predicted_x = destination[0]
+                    msg.predicted_y = destination[1]
+                    ball_prediction_publisher.publish(msg)
+                    rospy.loginfo(msg)
+            if not ball_object.display_image(image):
+                flag = 1
+                break
 
             rate.sleep()
 
