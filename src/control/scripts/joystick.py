@@ -9,7 +9,7 @@ pygame.init()
 #Axes:
 #0&1=>left analog 3&4=>right analog
 #LT-2 RT-5
-PASS = 0
+DESP_SHOOT = 0
 SHOOT = 1
 THRU_BALL = 3
 FORWARD_AXIS_LEFT = 0
@@ -17,6 +17,7 @@ SIDEWARD_AXIS_LEFT = 1
 FORWARD_AXIS_RIGHT = 3
 SIDEWARD_AXIS_RIGHT = 4
 SPRINT = 5
+RT = 5
 
 class Joystick_interface:
 
@@ -82,6 +83,15 @@ class Joystick_interface:
 
     def get_rb(self):
         return self.joy.get_button(4)
+
+    def is_dribble(self):
+        if self.joy.get_axis(RT) > 0.5:
+            return 1
+        else:
+            return 0
+
+    def get_desp_shoot(self):
+        return self.joy.get_button(DESP_SHOOT)
 
     def event_get(self):
         pygame.event.get()

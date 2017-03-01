@@ -10,10 +10,10 @@ FULL_HEIGHT = 1080
 FINAL_WIDTH  = 1100
 FINAL_HEIGHT = 620
 
-LEFT_TOP = [94,14]
-RIGHT_TOP = [1714,152]
-RIGHT_BOTTOM = [1670,1054]
-LEFT_BOTTOM = [36,1034]
+LEFT_TOP = [120,0]
+RIGHT_TOP = [1728,176]
+RIGHT_BOTTOM = [1674,1076]
+LEFT_BOTTOM = [38,1016]
 
 class IP(object):
 
@@ -64,14 +64,16 @@ class IP(object):
         return cv2.moments(contour)
 
     def crop_image(self,image,center,amount):
-        # if int(center[1])-amount >= 0 and int(center[0])-amount >= 0:
-            # if int(center[1])+amount <= 2*amount and int(center[0])+amount <= 2*amount:
-        img = image[(int(center[1])-amount):(int(center[1])+amount),(int(center[0])-amount):(int(center[0])+amount)]
-        return img
-            # else:
-            #     return [-1]
-        # else:
-        #     return [-1]
+        print int(center[1])-amount,int(center[0])-amount
+        print int(center[1])+amount,int(center[0])+amount
+        if int(center[1])-amount >= 0 and int(center[0])-amount >= 0:
+            if int(center[1])+amount <= FINAL_HEIGHT and int(center[0])+amount <= FINAL_WIDTH:
+                img = image[(int(center[1])-amount):(int(center[1])+amount),(int(center[0])-amount):(int(center[0])+amount)]
+                return img
+            else:
+                return -1
+        else:
+            return -1
 
     def get_hsv_mask(self,image,lower,upper):
         return cv2.inRange(image, lower, upper)

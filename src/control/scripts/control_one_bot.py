@@ -7,17 +7,14 @@ import rospy
 from image_processing.msg import ball
 from image_processing.msg import bot_state
 
-IP_ADDR_1 = "192.168.1.102"
-PORT_NO_1 = 285
-# IP_ADDR_2 = "192.168.43.25"
-# PORT_NO_2 = 285
-IP_ADDR_3 = "192.168.43.25"
-PORT_NO_3 = 285
-# IP_ADDR_4 = "192.168.43.25"
-# PORT_NO_4 = 285
+# IP_ADDR = "192.168.1.102"
+# IP_ADDR = "192.168.1.103"
+IP_ADDR = "192.168.1.104"
+# IP_ADDR = "192.168.1.105"
+PORT_NO = 285
 
 def callback_bot(msg):
-    if msg.num_circles == 2:
+    if msg.num_circles == 3:
         bot_dictionary[msg.num_circles].update_state((msg.pose.x,msg.pose.y,msg.pose.theta))
     # print msg.num_circles,msg.pose.x,msg.pose.y,msg.pose.theta
     # rospy.spin()
@@ -26,7 +23,7 @@ def callback_bot(msg):
 if __name__=="__main__":
     try:
         stick = joystick.Joystick_interface()
-        bot1 = robot.robot((0,0,0),"T1_1",IP_ADDR_1,PORT_NO_1)
+        bot1 = robot.robot((0,0,0),"T1_1",IP_ADDR,PORT_NO)
         # bot2 = robot.robot((0,0,0),"T2_1",IP_ADDR_2,PORT_NO_2)
         # bot3 = robot.robot((0,0,0),"T1_2",IP_ADDR_3,PORT_NO_3)
         # bot4 = robot.robot((0,0,0),"T2_2",IP_ADDR_4,PORT_NO_4)
@@ -43,6 +40,10 @@ if __name__=="__main__":
             stick.set_omega(False)
         else:
             stick.set_omega(True)
+
+        vel = (0,0)
+        solenoid = 0
+        dribbler = 0
         while(1):
             stick.event_get()
             vel = stick.get_vel()
@@ -53,14 +54,26 @@ if __name__=="__main__":
                 print stick.get_lb()
                 print stick.get_rb()
                 if stick.get_lb():
-                    w = 3.14
-                elif stick.get_rb():
                     w = -3.14
+                elif stick.get_rb():
+                    w = 3.14
                 else:
                     w = 0
+
+            if stick.is_dribble():
+                dribbler = 1
+            else:
+                dribbler = 0
+
+            if stick.is_shoot():
+                solenoid = 1
+            elif stick.get_desp_shoot():
+                solenoid = 2
+            else:
+                solenoid = 0
             # print w
             print vel
-            bot1.move(scale_x*vel[0],scale_y*vel[1],w)
+            bot1.move(scale_x*vel[0],scale_y*vel[1],w,solenoid,dribbler)
             # bot1.move(0.1,0.1,0.1)
             # time.sleep(0.05)
             # print bot1.state[2]

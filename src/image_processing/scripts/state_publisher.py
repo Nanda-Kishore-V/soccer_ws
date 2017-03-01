@@ -6,13 +6,16 @@ from image_processing.msg import ball
 from image_processing.msg import ball_predict
 from image_processing.msg import bot_state
 
+SOFT_LIMIT_POSITIVE = 700
+SOFT_LIMIT_NEGATIVE = 400
+
 if __name__=="__main__":
     try:
         ball_object = ip_module.Ball()
         flag = 0
-        state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=5)
-        ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=5)
-        ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=5)
+        state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
+        ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
+        ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
         rospy.init_node('state_publisher',anonymous=True)
         rate = rospy.Rate(ball_object.fps)
         centroid = (0,0)
@@ -24,7 +27,7 @@ if __name__=="__main__":
 
             imageGray = ball_object.rgb2gray(image)
             ret,thresh = ball_object.threshold_image(imageGray,250,255)
-            # if not ball_object.display_image(thresh):
+            # if not ball_object.display_image(thresh,"thresh"):
             #     flag = 1
             #     break
             contours,hierarchy = ball_object.find_contours(thresh)
@@ -38,8 +41,11 @@ if __name__=="__main__":
                     if centroid != -1:
                         _,thresh = ball_object.threshold_image(imageGray,220,255)
                         cropped_image = ball_object.crop_image(thresh, centroid, 40)
-                        # if all(cropped_image) == -1:
-                        #     print "The bot is out of bounds."
+
+                        if isinstance(cropped_image,int):
+                            print "The bot is out of bounds."
+                            continue
+
                         cropped_contours,cropped_hierarchy = ball_object.find_contours(cropped_image)
 
                         count = 0
@@ -53,8 +59,8 @@ if __name__=="__main__":
                                     centroid_small = ball_object.get_center(cropped_contours[j])
 
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
-                        print "State: ", centroid[0],centroid[1],yaw_angle
-                        print "Count: ",count
+                        # print "State: ", centroid[0],centroid[1],yaw_angle
+                        # print "Count: ",count
                         bot_msg = bot_state()
                         bot_msg.num_circles = count
                         bot_msg.pose.x = centroid[0]
@@ -94,12 +100,24 @@ if __name__=="__main__":
                 msg = ball_predict()
                 # print ball_object.get_prediction(image)
                 destination = ball_object.get_prediction(image)
-                # print destination
-                if destination != -1 and destination[0] != 100:
+                print destination
+                if destination == -1:
+                     msg.predicted_x = -1
+                     msg.predicted_y = -1
+                elif (((ball_msg.vx**(2) + ball_msg.vy**(2))**(0.5)) < 50):
+                    if ((ball_msg.vx > 0 and ball_msg.x > SOFT_LIMIT_POSITIVE) or (ball_msg.vx < 0 and ball_msg.y < SOFT_LIMIT_NEGATIVE)) and (((ball_msg.vx**(2) + ball_msg.vy**(2))**(0.5)) > 15):
+                        msg.predicted_x = destination[0]
+                        msg.predicted_y = destination[1]
+                    else:
+                        msg.predicted_x = -1
+                        msg.predicted_y = -1
+                else:
                     msg.predicted_x = destination[0]
                     msg.predicted_y = destination[1]
-                    ball_prediction_publisher.publish(msg)
-                    rospy.loginfo(msg)
+
+                ball_prediction_publisher.publish(msg)
+                rospy.loginfo(msg)
+
             if not ball_object.display_image(image):
                 flag = 1
                 break

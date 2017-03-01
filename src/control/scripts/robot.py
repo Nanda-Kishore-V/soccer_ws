@@ -9,6 +9,7 @@ WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
 MIN_VEL_GTG = 85
+
 class robot:
 
     def __init__(self,init_state,number,ip,port):
@@ -36,7 +37,7 @@ class robot:
 
     #Finds wheel velocities for given (v_x,v_y,w)
     #Returns 1 if data is sent to robot else returns 0
-    def move(self,x_dot,y_dot,w):
+    def move(self,x_dot,y_dot,w,solenoid,dribbler):
         # print "velocities:",(x_dot,y_dot,w)
         vel_w_1 = ((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
         vel_w_2 = ((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
@@ -82,18 +83,18 @@ class robot:
                 vel_w_3 += MIN_VEL
             else:
                 vel_w_3 -= MIN_VEL
-        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+";"+"\0"
+        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+":"+str(solenoid)+":"+str(dribbler)+";"+"\0"
         print message
         return self.send(message)
 
     def update_state(self,given_state):
         self.state = given_state;
 
-    def go_to_goal(self,x_dot,y_dot,w):
+    def go_to_goal(self,x_dot,y_dot,w,solenoid=0,dribbler=0):
         vel_w_1 = ((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
         vel_w_2 = ((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
         vel_w_3 = ((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
-        print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
+        # print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
         max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
         # print max_val
         if round(max_val,0) == abs(round(vel_w_1,0)) and round(max_val,0) == abs(round(vel_w_2,0)) and round(max_val,0) == abs(round(vel_w_3,0)):
@@ -116,7 +117,8 @@ class robot:
 
         else:
             # print "I'm here too"
-            vel_w_1 /= 70; vel_w_2 /= 70; vel_w_3 /= 70;
+            vel_w_1 /= 41; vel_w_2 /= 41; vel_w_3 /= 41;
+
             vel_w_1 *= (255-MIN_VEL_GTG)
             if vel_w_1 > 0:
                 vel_w_1 += MIN_VEL_GTG
@@ -132,6 +134,8 @@ class robot:
                 vel_w_3 += MIN_VEL_GTG
             else:
                 vel_w_3 -= MIN_VEL_GTG
-        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+";"+"\0"
+        if(vel_w_1 > 255 or vel_w_2 > 255 or vel_w_3 > 255):
+            print "   Error                  "
+        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+":"+str(solenoid)+":"+str(dribbler)+";"+"\0"
         print message
         return self.send(message)
